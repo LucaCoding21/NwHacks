@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 import json
+from search import searchAPI
 app = Flask(__name__)
 
 
@@ -16,6 +17,7 @@ query ($id: Int) { # Define which variables will be used in the query (id)
     }
     averageScore
     season
+    
     recommendations{
       nodes{
         
@@ -50,9 +52,21 @@ print(response.json())
 response = json.dumps(response.json(), sort_keys=False, indent=2)
 
 
-@app.route("/")
+def getListOfAnimesBySearchTerm(term):
+    response = searchAPI(term)
+    return response
+    # processing of response later
+
+
+@app.route("/", methods=['GET', 'POST'])
 def hello_world():
-    return render_template("hello.html", response=response)
+    if request.method == 'POST':
+        response = getListOfAnimesBySearchTerm(request.form['searchbar'])
+        print("============================")
+        print(response)
+        return render_template("hello.html", result=response)
+    if request.method == 'GET':
+        return render_template("hello.html")
 
 
 if __name__ == "__main__":
