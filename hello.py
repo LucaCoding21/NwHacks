@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
 import requests
 import json
-from search import searchAPI
-app = Flask(__name__)
+from search import searchAPI, idSearch
 
+app = Flask(__name__)
 
 # Here we define our query as a multi-line string
 query = '''
@@ -48,25 +48,28 @@ url = 'https://graphql.anilist.co'
 # Make the HTTP Api request
 response = requests.post(url, json={'query': query, 'variables': variables})
 print(response.json())
-
 response = json.dumps(response.json(), sort_keys=False, indent=2)
-
-
-def getListOfAnimesBySearchTerm(term):
-    response = searchAPI(term)
-    return response
-    # processing of response later
 
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'POST':
-        response = getListOfAnimesBySearchTerm(request.form['searchbar'])
-        print("============================")
-        print(response)
-        return render_template("hello.html", result=response)
+        response = searchAPI(request.form['searchbar'])
+        return render_template("searchresults.html", result=response)
     if request.method == 'GET':
-        return render_template("hello.html")
+        search_query = request.args.get('search_query')
+        response = searchAPI(search_query)
+        return render_template("searchresults.html", result=response)
+
+
+@app.route("/anime/<int:anime_ID>", methods=['GET'])
+def anime_page(anime_ID):
+    # We have the ID of the anime we just clicked on in anime_ID.
+    # We should now take that and pass it to a function called getAnimeByID(anime_ID)
+    response = idSearch(anime_ID)
+    # This function should return the response of the query we make to the API.
+    # We can then take our response, pass it to anime.html, and display it however we like.
+    return render_template('anime.html', result=response)
 
 
 if __name__ == "__main__":
