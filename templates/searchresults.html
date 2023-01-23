@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <form method="POST" action=".">
+          <input id="search_id" name="searchbar" value="" />
+          <input type="submit">
+        </form>
+        <div>
+          {% for searchResult in result['data']['Page']['media'] %}
+
+
+            <a href="{{ url_for('anime_page', anime_ID=searchResult['id']) }}">
+              {% if searchResult['title']['english'] != None %}
+                {{ searchResult['title']['english']}} 
+                
+              
+                <img src = "{{ searchResult['coverImage']['medium']}}"><br>
+            </a>
+
+
+
+
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </div>
+    </body>
+</html>

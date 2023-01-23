@@ -1,0 +1,29 @@
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <form method="POST" action=".">
+          <input id="search_id" name="searchbar" value="" />
+          <input type="submit">
+        </form>
+        <h3>Recommendations for this ANIME</h3>
+        <h2>{{ result['data']['Media']['title']['english'] }}</h2>
+        <div>
+            {% for node in result['data']['Media']['recommendations']['nodes'][:5] %}
+                {% if node['mediaRecommendation']['title']['english'] != None %}
+                    {{ node['mediaRecommendation']['title']['english']}} 
+                    <img src = "{{node['mediaRecommendation']['coverImage']['medium']}}">
+                    <p> Rating: {{ node['rating']}}</p>
+                {% else %}
+                    <p>Title not available</p>
+                {% endif %}
+            {% endfor %}
+        </div>  
+    </body>
+</html>
