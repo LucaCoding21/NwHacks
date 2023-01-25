@@ -59,7 +59,7 @@ def hello_world():
     if request.method == 'GET':
         search_query = request.args.get('search_query')
         response = searchAPI(search_query)
-        return render_template("searchresults.html", result=response)
+        return render_template("home.html")
 
 
 @app.route("/anime/<int:anime_ID>", methods=['GET'])

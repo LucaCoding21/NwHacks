@@ -15,6 +15,9 @@ def idSearch(animeID):
             startDate {
                 year
             }
+            coverImage{
+                large
+            }
             recommendations{
                 nodes{
                     rating
@@ -24,7 +27,7 @@ def idSearch(animeID):
                             english
                         }
                         coverImage{
-                            medium
+                            large
                         }
                         
                     }
@@ -53,13 +56,15 @@ def searchAPI(term):
           
           media (id: $id, search: $search) {
               id
+              type
               title {
                   english
               }
               averageScore
               genres
               coverImage {
-                medium
+                large
+
               }
           }
       }

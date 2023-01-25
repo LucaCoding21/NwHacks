@@ -7,23 +7,112 @@
     <head>
         <title>test</title>
     </head>
+    <style>
+body {
+        background-color: #2d2a2e;
+        color: #779ead;
+        
+        }
+        header {
+            background-color: #779ead;
+            color: #2d2a2e;
+            padding: 10px;
+            text-align: left;
+            font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+            font-size: 10px; /* adjust as needed */
+            }
+
+        .title {
+        color: #779ead;
+        font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+        text-align: center;
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        }
+
+
+
+ 
+        h3 {
+            display: block;
+            align-items: center;
+        }
+        .texts{
+        position:absolute;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 0%;
+        align-items: center;
+        
+        }
+        .mainAnime{
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: auto;
+        }
+
+        .mainAnime img {
+            border:30px solid#4d484f;
+        }
+        .mainAnimeTitle {
+        font-size: 20px; /* adjust as needed */
+        font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+        position: absolute;
+        top: 14.5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffffff;
+        }
+
+        .recpicss {
+            box-sizing: content-box;  
+            width: 200px;
+            padding-right: 1000px;  
+            border: 10px solid #4d484f;
+            background-color:#4d484f;
+            margin: auto;
+            max-width: 90%;
+            margin-top:10px;
+
+        }
+
+        .recTitle{
+            
+            font-size: large;
+            
+            
+        }
+
+    </style>
     <body>
-        <form method="POST" action=".">
-          <input id="search_id" name="searchbar" value="" />
-          <input type="submit">
-        </form>
-        <h3>Recommendations for this ANIME</h3>
-        <h2>{{ result['data']['Media']['title']['english'] }}</h2>
+        <header>
+            <h1>AnimeGenie</h1>
+        </header>
+
+        
+       
+         <div class="mainAnime">
+            <img src = "{{ result['data']['Media']['coverImage']['large'] }}"><!--Main anime photo-->
+        </div>
         <div>
-            {% for node in result['data']['Media']['recommendations']['nodes'][:5] %}
-                {% if node['mediaRecommendation']['title']['english'] != None %}
-                    {{ node['mediaRecommendation']['title']['english']}} 
-                    <img src = "{{node['mediaRecommendation']['coverImage']['medium']}}">
-                    <p> Rating: {{ node['rating']}}</p>
-                {% else %}
-                    <p>Title not available</p>
-                {% endif %}
-            {% endfor %}
+                {% for node in result['data']['Media']['recommendations']['nodes'][:5] %}
+                    {% if node['mediaRecommendation']['title']['english'] != None %}
+                        <div class="recpicss">
+                            <img src="{{node['mediaRecommendation']['coverImage']['large']}}">
+                            <div class="recTitle">{{ node['mediaRecommendation']['title']['english']}}</div>
+                            <p> Rating: {{ node['rating']}}</p>
+                        </div>
+                        
+                      
+                    {% endif %}
+                {% endfor %}
         </div>  
+        </div>
+
     </body>
 </html>

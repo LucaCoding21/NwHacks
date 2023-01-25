@@ -1,32 +1,122 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>test</title>
+        <title>AnimeGenie</title>
     </head>
+    <style>
+        header {
+            background-color: #779ead;
+            color: #2d2a2e;
+            padding: 10px;
+            text-align: left;
+            font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+            font-size: 10px; /* adjust as needed */
+            }
+        body {
+        background-color:#2d2a2e;
+        color: #779ead;
+        }
+
+        .title {
+        color: #779ead;
+        font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+        text-align: center;
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        }
+
+        #search_id {
+        background-color: white;
+        width: 250px;
+        height: 35px;
+        font-size: 15px;
+        display: block;
+        margin: 0 auto;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 20px;
+        font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+        padding-inline-start: 2%;
+        }
+
+
+        input[type="submit"] {
+        border-radius: 20px;
+        font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        position: absolute;
+        top: 25%;
+        left: 57.5%;
+        transform: translate(-50%, -50%);
+        height: 35px;
+        width: 60px;
+        padding:10px;
+        cursor: pointer;
+        }
+        
+       
+
+        
+        
+        .classResults {
+            margin-top: 0%; /* move down from search bar */
+            display: flex; /* display elements in a row */
+            flex-wrap:wrap; /* allow elements to wrap to the next line if necessary */
+            align-items: center; /* center elements horizontally */
+            position: static;
+            
+            
+        }
+            a {
+                text-align: center;
+                margin: 2%; /* add some space between elements */
+                display: block;
+                color:#FFFFFF;
+                font-family: "Marker Felt", Helvetica, Arial, sans-serif;
+                font-size: 20px;
+                padding: 5%;
+                margin-top: 5%;
+            }
+
+            a:link{
+                text-decoration: none;
+            }
+
+            img {
+                width: 250px; /* adjust the size of the images */
+                border-radius: 5%;
+                display:block;
+                cursor: pointer;
+            }
+
+</style>
+
     <body>
-        <form method="POST" action=".">
-          <input id="search_id" name="searchbar" value="" />
-          <input type="submit">
-        </form>
-        <div>
-          {% for searchResult in result['data']['Page']['media'] %}
-
-
-            <a href="{{ url_for('anime_page', anime_ID=searchResult['id']) }}">
-              {% if searchResult['title']['english'] != None %}
-                {{ searchResult['title']['english']}} 
-                
-              
-                <img src = "{{ searchResult['coverImage']['medium']}}"><br>
-            </a>
-
-
-
-
-            {% endif %}
-          {% endfor %}
-
+        <header>
+            <h1>AnimeGenie</h1>
+        </header>
+        <h1 class="title">AnimeGenie</h1>
+            <form method="POST" action=".">
+                <input id="search_id" name="searchbar" value="" placeholder="Anime...">
+                <input type="submit">
+            </form>
         </div>
-      </div>
+        <div>
+           <div class="classResults"> 
+            {% for searchResult in result['data']['Page']['media'] %}
+               
+                    {% if searchResult['title']['english'] != None and searchResult['type'] == 'ANIME' %}
+                     <a href="{{ url_for('anime_page', anime_ID=searchResult['id']) }}">
+                        {{ searchResult['title']['english']}} 
+                        <img src="{{ searchResult['coverImage']['large']}}">
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
     </body>
 </html>
